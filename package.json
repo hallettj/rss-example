@@ -1,0 +1,24 @@
+{
+  "name": "rss-example",
+  "version": "1.0.0",
+  "description": "very simple rss client",
+  "main": "index.js",
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/hallettj/rss-example.git"
+  },
+  "keywords": [
+    "example",
+    "express"
+  ],
+  "scripts": {
+      "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "3.x",
+    "q-io": "~1.7.0",
+    "q": "~0.9.4"
+  },
+  "author": "Jesse Hallett <jesse@sitr.us>",
+  "license": "MIT"
+}
