@@ -1,18 +1,35 @@
 var express = require('express');
-var http = require('q-io/http');
-var q = require('q');
-var app = express();
+var http    = require('q-io/http');
+var q       = require('q');
+var app     = express();
 
 var feeds = [
-    'http://rss.slashdot.org/Slashdot/slashdot'
+    'http://www.reddit.com/.rss'
 ];
 
 app.use(express.bodyParser());
 
 app.post('/feeds', function(req, res) {
-    var url = req.body.url;
-    feeds.push(url);
-    res.send('Created', 201);
+    feeds.push(req.body.url);
+    var id = feeds.length - 1;
+    res.redirect('/feeds/'+ id);
+});
+
+app.get('/feeds/:id', function(req, res) {
+    var url = feeds[req.params.id];
+    http.read(url)
+    .then(function(data) {
+        var xml  = data.toString('utf-8');
+        var list = parseTitles(xml).map(
+            function(title) {
+                return '<li>'+ title +'</li>';
+            }
+        ).join('');
+        res.send('<ul>'+ list + '</ul>');
+    })
+    .fail(function(error) {
+        res.send(String(error), 500);
+    });
 });
 
 app.get('/read', function(req, res) {
@@ -36,8 +53,8 @@ app.listen(process.env.PORT || 3000);
 
 function parseTitles(data) {
     var titles = [];
-    data.replace(/<title>(.+?)<\/title>/ig, function(_, t) {
-        titles.push(t);
+    data.replace(/<title>(.+?)<\/title>/ig, function(_, title) {
+        titles.push(title);
     });
     return titles;
 }

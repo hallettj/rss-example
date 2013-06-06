@@ -29,7 +29,7 @@ Run the app:
 
 Add RSS feeds using curl:
 
-    curl -X POST http://localhost:3000/feeds -d 'url=http://www.reddit.com/.rss'
+    curl -X POST http://localhost:3000/feeds -d 'url=http://rss.slashdot.org/Slashdot/slashdot'
 
 Curl is installed by default on Mac.  If you do not have it on Linux you
 can probably get it by installing a package called 'curl'.
